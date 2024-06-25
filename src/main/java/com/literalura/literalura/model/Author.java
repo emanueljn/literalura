@@ -1,28 +1,29 @@
 package com.literalura.literalura.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name = "autores")
+@Table(name = "authors")
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String nome;
+    private String name;
+    private int birth_year;
+    private int death_year;
 
-    @ManyToMany(mappedBy = "autores", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Livro> livros = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Book> books = new ArrayList<>();
 
+    public Author(){}
 
-    public Author() {}
-    public Author(String nome) {
-        this.nome = nome;
-    }
+    // getters e setters
 
     public Long getId() {
         return id;
@@ -32,25 +33,47 @@ public class Author {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Livro> getLivro() {
-        return livros;
+    public int getBirth_year() {
+        return birth_year;
     }
 
-    public void setLivro(List<Livro> livro) {
-        this.livros = livros;
+    public void setBirth_year(int birth_year) {
+        this.birth_year = birth_year;
     }
 
-    @Override
+    public int getDeath_year() {
+        return death_year;
+    }
+
+    public void setDeath_year(int death_year) {
+        this.death_year = death_year;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     public String toString() {
-        return "Author= " + nome + '\'' +
-                "livros= " + livros;
+        String booksString = books == null ? "Nenhum livro registrado." :
+                books.stream()
+                        .map(Book::getTitle)
+                        .collect(Collectors.joining(", "));
+
+        return "Author: " + name + "\n" +
+                "Ano de nascimento: " + birth_year + "\n" +
+                "Ano de falecimento: " + death_year + "\n" +
+                "Livros: " + booksString +  "\n";
     }
 }

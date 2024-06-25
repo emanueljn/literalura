@@ -3,7 +3,7 @@ package com.literalura.literalura.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ConverteDados implements IConverteDados{
+public class DataConverter implements IConverteDados{
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
