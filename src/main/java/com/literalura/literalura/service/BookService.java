@@ -40,14 +40,29 @@ public class BookService {
 
         if (dadosLivro != null && dadosLivro.results() != null && !dadosLivro.results().isEmpty()) {
             Book primeiroLivro = dadosLivro.results().get(0);
-            // Associar o livro aos autores (supondo que o objeto DataBook já esteja configurado corretamente)
+
+            // Configura apenas o primeiro idioma
+            if (primeiroLivro.getLanguages() != null && !primeiroLivro.getLanguages().isEmpty()) {
+                List<String> idiomas = new ArrayList<>();
+                idiomas.add(primeiroLivro.getLanguages().get(0));
+                primeiroLivro.setLanguages(idiomas);
+            }
+
+            if(primeiroLivro.getAuthors() != null && !primeiroLivro.getAuthors().isEmpty()) {
+                List<Author> authors = new ArrayList<>();
+                authors.add(primeiroLivro.getAuthors().get(0));
+                primeiroLivro.setAuthors(authors);
+            }
+
+            // Associar o livro aos autores
             for (Author author : primeiroLivro.getAuthors()) {
                 author.getBooks().add(primeiroLivro);
             }
+
             repositorioBook.save(primeiroLivro);
             System.out.println(primeiroLivro);
         } else {
-            System.out.println("Nenhum livro encontrado.");
+            System.out.println("Nenhum livro encontrado!");
         }
     }
 
@@ -73,7 +88,14 @@ public class BookService {
         }
     }
 
-    public static void listarLivrosPorIdioma() {
-
+    public void listarLivrosPorIdioma() {
+        System.out.println("Digite o idoma para busca dos: ");
+        var idiomaLivro = leitura.nextLine();
+        books = repositorioBook.findByLanguage(idiomaLivro.toLowerCase());
+        if (!books.isEmpty()) {
+            books.forEach(System.out::println);
+        } else {
+            System.out.println("Não há livros registrados no banco de dados com esse idioma.");
+        }
     }
 }

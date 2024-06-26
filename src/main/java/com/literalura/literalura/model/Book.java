@@ -1,5 +1,6 @@
 package com.literalura.literalura.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -16,14 +17,20 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "book_languages", joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "language")
     private List<String> languages;
-    private int download_count;
+    @JsonAlias("download_count") private int downloads;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
     // Construtor
-    public Book() {}
+    public Book() {
+        this.languages = new ArrayList<>();
+    }
 
     // getters e setters
     public Long getId() {
@@ -50,20 +57,27 @@ public class Book {
         this.authors = authors;
     }
 
+    public void addLanguage(String language) {
+        this.languages.add(language);
+    }
+
     public List<String> getLanguages() {
         return languages;
     }
 
     public void setLanguages(List<String> languages) {
-        this.languages = languages;
+        // Verifica se a lista de idiomas não está vazia e define apenas o primeiro idioma
+        if (languages != null && !languages.isEmpty()) {
+            this.languages.clear(); // Limpa a lista atual de idiomas
+            this.languages.add(languages.get(0)); // Adiciona apenas o primeiro idioma
+        }
+    }
+    public int getDownloads() {
+        return downloads;
     }
 
-    public int getDownload_count() {
-        return download_count;
-    }
-
-    public void setDownload_count(int download_count) {
-        this.download_count = download_count;
+    public void setDownloads(int downloads) {
+        this.downloads = downloads;
     }
 
     // Métodos auxiliares para facilitar o acesso aos autores e idiomas
@@ -96,8 +110,8 @@ public class Book {
         return  "---- LIVRO ----" +
                 "\nLivro= " + title +
                 "\nAutores=" + authorsNames +
-                "\nIdiomas= " + getFirstLanguage() +
-                "\nTotal de downloads=" + download_count +
+                "\nIdiomas= " + (languages.isEmpty() ? "Linguagem indefinida!" : languages.get(0)) +
+                "\nTotal de downloads=" + downloads +
                 "\n---------------\n";
     }
 }

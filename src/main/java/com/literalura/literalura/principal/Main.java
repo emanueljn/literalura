@@ -52,6 +52,12 @@ public class Main {
                 case 5:
                     bookService.listarLivrosPorIdioma();
                     break;
+                case 6:
+                    //bookService.top10MaisBaixados();
+                    break;
+                case 7:
+                    //bookService.buscarAutorPorNome();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
