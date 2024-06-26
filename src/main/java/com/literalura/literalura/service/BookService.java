@@ -98,4 +98,9 @@ public class BookService {
             System.out.println("Não há livros registrados no banco de dados com esse idioma.");
         }
     }
+
+    public void top10MaisBaixados() {
+        books = repositorioBook.findTop10ByOrderByDownloadsDesc();
+        books.forEach(System.out::println);
+    }
 }

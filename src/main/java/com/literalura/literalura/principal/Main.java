@@ -28,6 +28,8 @@ public class Main {
                     3 - buscar autores registrados
                     4 - buscar autores vivos em um determinado ano
                     5 - listar livros em um determinado idioma
+                    6 - listar top 10 mais baixados
+                    
 
                     0 - sair
                     """;
@@ -53,7 +55,7 @@ public class Main {
                     bookService.listarLivrosPorIdioma();
                     break;
                 case 6:
-                    //bookService.top10MaisBaixados();
+                    bookService.top10MaisBaixados();
                     break;
                 case 7:
                     //bookService.buscarAutorPorNome();
