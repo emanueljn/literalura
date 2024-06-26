@@ -8,24 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 @Entity
 @Table(name = "books")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-
+    @JsonAlias("title")private String title;
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "book_languages", joinColumns = @JoinColumn(name = "book_id"))
     @Column(name = "language")
-    private List<String> languages;
+    @JsonAlias("languages") private List<String> languages;
     @JsonAlias("download_count") private int downloads;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Author> authors = new ArrayList<>();
+    @JsonAlias("authors") private List<Author> authors = new ArrayList<>();
 
     // Construtor
     public Book() {

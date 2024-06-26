@@ -17,6 +17,7 @@ public class Main {
         this.authorService = new AuthorService(repositorioAuthor);
     }
 
+    // Exibi o meu para o usuário
     public void exibeMenu() {
         var opcao = -1;
         while (opcao != 0) {
@@ -29,6 +30,7 @@ public class Main {
                     4 - buscar autores vivos em um determinado ano
                     5 - listar livros em um determinado idioma
                     6 - listar top 10 mais baixados
+                    7 - buscar autor por trecho do nome
                     
 
                     0 - sair
@@ -38,15 +40,16 @@ public class Main {
             opcao = leitura.nextInt();
             leitura.nextLine();
 
+            // Métodos disponíveis para o usuário
             switch (opcao) {
                 case 1:
-                    bookService.buscarLivro();;
+                    bookService.buscarLivro();
                     break;
                 case 2:
                     bookService.listarLivrosRegistrados();
                     break;
                 case 3:
-                    authorService.buscarAutoresRegistrados();
+                    authorService.listarAutoresRegistrados();
                     break;
                 case 4:
                     authorService.buscarAutoresPorAno();
@@ -58,7 +61,7 @@ public class Main {
                     bookService.top10MaisBaixados();
                     break;
                 case 7:
-                    authorService.buscarAutorPorParteDoNome();
+                    authorService.buscarAutoresPorParteDoNome();
                     break;
                 case 0:
                     System.out.println("Saindo...");

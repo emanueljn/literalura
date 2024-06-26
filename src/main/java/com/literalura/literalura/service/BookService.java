@@ -13,11 +13,9 @@ public class BookService {
     private Scanner leitura = new Scanner(System.in);
     private ApiConsumer consumo = new ApiConsumer();
     private final String ENDERECO = "https://gutendex.com/books/?search=";
-    private DataConverter conversor = new DataConverter();
     private BookRepository repositorioBook;
     private List<Book> books = new ArrayList<>();
     static Optional<Book> bookSearched;
-
 
     public BookService(BookRepository repositorioBook) {
         this.repositorioBook = repositorioBook;
@@ -31,8 +29,9 @@ public class BookService {
         buscarDadosLivro(nomeLivro);
     }
 
+    // Busca o livro na Api
     private void buscarLivroWeb(String nomeLivro) {
-        // Obter dados do livro da web
+        // Obtem dados do livro da Api
         var json = consumo.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
 
         DataConverter conversor = new DataConverter();
@@ -41,13 +40,14 @@ public class BookService {
         if (dadosLivro != null && dadosLivro.results() != null && !dadosLivro.results().isEmpty()) {
             Book primeiroLivro = dadosLivro.results().get(0);
 
-            // Configura apenas o primeiro idioma
+            // Seleciona apenas o primeiro idioma
             if (primeiroLivro.getLanguages() != null && !primeiroLivro.getLanguages().isEmpty()) {
                 List<String> idiomas = new ArrayList<>();
                 idiomas.add(primeiroLivro.getLanguages().get(0));
                 primeiroLivro.setLanguages(idiomas);
             }
 
+            // Seleciona apenas o primeiro autor
             if(primeiroLivro.getAuthors() != null && !primeiroLivro.getAuthors().isEmpty()) {
                 List<Author> authors = new ArrayList<>();
                 authors.add(primeiroLivro.getAuthors().get(0));
@@ -59,23 +59,29 @@ public class BookService {
                 author.getBooks().add(primeiroLivro);
             }
 
+            // Salva o livro no banco de dados
             repositorioBook.save(primeiroLivro);
+            // Imprime o Livro da pesquisa da Api
             System.out.println(primeiroLivro);
         } else {
             System.out.println("Nenhum livro encontrado!");
         }
     }
 
+    // Busca o livro no banco de dados
     public void buscarDadosLivro(String nomeLivro) {
+        // Verifica se tem o livro no banco de dados
         bookSearched = repositorioBook.findByTitleContainingIgnoreCase(nomeLivro);
         if (bookSearched.isPresent()) {
             Book bookFound = bookSearched.get();
             System.out.println(bookFound);
         } else {
+            // Chama o método para buscarLivroWeb, se não tem o livro no banco de dados.
             buscarLivroWeb(nomeLivro);
         }
     }
 
+    // Lista os livros do banco de dados
     public void listarLivrosRegistrados() {
         List<Book> books = repositorioBook.findAll();
 
@@ -88,6 +94,7 @@ public class BookService {
         }
     }
 
+    // Lista os livros pelo idioma que o usuário informa
     public void listarLivrosPorIdioma() {
         System.out.println("Digite o idoma para busca dos: ");
         var idiomaLivro = leitura.nextLine();
@@ -99,6 +106,7 @@ public class BookService {
         }
     }
 
+    // Lista os top 10 livros mais baixados, dos livros que estão no banco de dados
     public void top10MaisBaixados() {
         books = repositorioBook.findTop10ByOrderByDownloadsDesc();
         books.forEach(System.out::println);

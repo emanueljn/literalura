@@ -15,13 +15,15 @@ public class AuthorService {
         this.repositorioAuthor = repositorioAuthor;
     }
 
-    public void buscarAutoresRegistrados() {
+    // Lista os autores registrados
+    public void listarAutoresRegistrados() {
         authors = repositorioAuthor.findAll();
         authors.stream()
                 .sorted(Comparator.comparing(Author::getName))
                 .forEach(System.out::println);
     }
 
+    // Busca autores por Ano
     public void buscarAutoresPorAno() {
         System.out.println("Digite o ano, para busca dos autores vivos nessa data.");
         var ano = leitura.nextInt();
@@ -33,7 +35,8 @@ public class AuthorService {
         }
     }
 
-    public void buscarAutorPorParteDoNome() {
+    // Busca autores por parte do nome
+    public void buscarAutoresPorParteDoNome() {
         System.out.println("Digite o nome ou parte do nome do autor que você quer pesquisar");
         var authorName = leitura.nextLine();
         authors = repositorioAuthor.AutorPorParteDoNome(authorName);

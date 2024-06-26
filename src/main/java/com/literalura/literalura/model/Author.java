@@ -1,22 +1,24 @@
 package com.literalura.literalura.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 @Entity
 @Table(name = "authors")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private int birth_year;
-    private int death_year;
+    @JsonAlias("name") private String name;
+    @JsonAlias("birth_year")private int birth_year;
+    @JsonAlias("death_year")private int death_year;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
