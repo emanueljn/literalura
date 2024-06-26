@@ -58,7 +58,7 @@ public class Main {
                     bookService.top10MaisBaixados();
                     break;
                 case 7:
-                    //bookService.buscarAutorPorNome();
+                    authorService.buscarAutorPorParteDoNome();
                     break;
                 case 0:
                     System.out.println("Saindo...");

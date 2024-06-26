@@ -32,4 +32,15 @@ public class AuthorService {
             System.out.println("Não encontramos registros de autores vivos na data informada.");
         }
     }
+
+    public void buscarAutorPorParteDoNome() {
+        System.out.println("Digite o nome ou parte do nome do autor que você quer pesquisar");
+        var authorName = leitura.nextLine();
+        authors = repositorioAuthor.AutorPorParteDoNome(authorName);
+        if(!authors.isEmpty()) {
+            authors.forEach(System.out::println);
+        } else {
+        System.out.println("Não há resultado para os dados informados!");
+    }
+    }
 }
