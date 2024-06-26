@@ -4,6 +4,7 @@ import com.literalura.literalura.model.*;
 import com.literalura.literalura.repository.AuthorRepository;
 import com.literalura.literalura.repository.BookRepository;
 import com.literalura.literalura.service.ApiConsumer;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -111,11 +112,17 @@ public class Main {
         }
     }
 
+
     private void listarLivrosRegistrados() {
-        books = repositorioBook.findAll();
-        books.stream()
-                .sorted(Comparator.comparing(Book::getAuthorNames))
-                .forEach(System.out::println);
+        List<Book> books = repositorioBook.findAll();
+
+        if (books.isEmpty()) {
+            System.out.println("Não há livros registrados no banco de dados.");
+        } else {
+            books.stream()
+                    .sorted(Comparator.comparing(Book::getAuthorNames))
+                    .forEach(System.out::println);
+        }
     }
 
     private void buscarAutoresRegistrados() {

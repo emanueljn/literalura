@@ -81,18 +81,10 @@ public class Book {
         return sb.toString();
     }
 
-    public String getLanguageString() {
-        StringBuilder sb = new StringBuilder();
-        if (languages != null) {
-            for (String language : languages) {
-                sb.append(language).append(", ");
-            }
-            // Remove a última vírgula e espaço adicionados
-            if (sb.length() > 2) {
-                sb.setLength(sb.length() - 2);
-            }
-        }
-        return sb.toString();
+    public String getFirstLanguage() {
+        if (languages != null && !languages.isEmpty()) {
+            return languages.get(0);
+        } return "Linguagem indefinida!";
     }
 
     @Override
@@ -104,7 +96,7 @@ public class Book {
         return  "---- LIVRO ----" +
                 "\nLivro= " + title +
                 "\nAutores=" + authorsNames +
-                "\nIdiomas= " + languages +
+                "\nIdiomas= " + getFirstLanguage() +
                 "\nTotal de downloads=" + download_count +
                 "\n---------------\n";
     }
