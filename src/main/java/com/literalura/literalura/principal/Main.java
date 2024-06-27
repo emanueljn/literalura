@@ -1,20 +1,27 @@
 package com.literalura.literalura.principal;
 
-import com.literalura.literalura.repository.AuthorRepository;
-import com.literalura.literalura.repository.BookRepository;
 import com.literalura.literalura.service.AuthorService;
 import com.literalura.literalura.service.BookService;
+import com.literalura.literalura.service.CatalogStatistics;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class Main {
 
     private Scanner leitura = new Scanner(System.in);
     private BookService bookService;
     private AuthorService authorService;
+    private CatalogStatistics catalogStatistics;
 
-    public Main(BookRepository repositorioBook, AuthorRepository repositorioAuthor) {
-        this.bookService = new BookService(repositorioBook);
-        this.authorService = new AuthorService(repositorioAuthor);
+    @Autowired
+    public Main(BookService bookService, AuthorService authorService, CatalogStatistics catalogStatistics) {
+        this.bookService = bookService;
+        this.authorService = authorService;
+        this.catalogStatistics = catalogStatistics;
+        this.leitura = new Scanner(System.in);
     }
 
     // Exibi o meu para o usuário
@@ -31,6 +38,7 @@ public class Main {
                     5 - listar livros em um determinado idioma
                     6 - listar top 10 livros mais baixados
                     7 - buscar autor por trecho do nome
+                    8 - exibir estatísticas
                     
 
                     0 - sair
@@ -64,8 +72,9 @@ public class Main {
                     case 7:
                         authorService.buscarAutoresPorParteDoNome();
                         break;
+                    case 8:
+                        catalogStatistics.exibirEstatisticas();
                     case 0:
-                        System.out.println("Saindo...");
                         break;
                     default:
                         System.out.println("Opção inválida. Tente novamente.");

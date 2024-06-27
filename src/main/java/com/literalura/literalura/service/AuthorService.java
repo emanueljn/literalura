@@ -2,9 +2,12 @@ package com.literalura.literalura.service;
 
 import com.literalura.literalura.model.Author;
 import com.literalura.literalura.repository.AuthorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Service
 public class AuthorService {
 
     private AuthorRepository repositorioAuthor;
@@ -45,5 +48,26 @@ public class AuthorService {
         } else {
         System.out.println("Não há resultado para os dados informados!");
     }
+    }
+
+    // Busca e imprime o total de autores registrados no banco de dados
+    public void totalDeAutores() {
+        authors = repositorioAuthor.findAll().stream()
+                    .sorted(Comparator.comparing(Author::getName))
+                    .collect(Collectors.toList());
+        if (!authors.isEmpty()) {
+            System.out.println("Total de autores registrados: " + authors.size());
+        } else {
+            System.out.println("Não há autores registrados no banco de dados.");
+        }
+    }
+
+    // Busca e imprime a média de livros por autor
+    public void mediaDeLivrosPorAutor() {
+        DoubleSummaryStatistics stats = repositorioAuthor.findAll().stream()
+                .mapToDouble(a -> a.getBooks().size())
+                .summaryStatistics();
+        double media = stats.getAverage();
+        System.out.println("Média de livros por autor: " + media);
     }
 }

@@ -5,9 +5,13 @@ import com.literalura.literalura.model.Book;
 import com.literalura.literalura.model.DataBook;
 import com.literalura.literalura.model.DataConverter;
 import com.literalura.literalura.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Service
 public class BookService {
 
     private Scanner leitura = new Scanner(System.in);
@@ -17,6 +21,7 @@ public class BookService {
     private List<Book> books = new ArrayList<>();
     static Optional<Book> bookSearched;
 
+    @Autowired
     public BookService(BookRepository repositorioBook) {
         this.repositorioBook = repositorioBook;
     }
@@ -116,6 +121,26 @@ public class BookService {
     // Lista os top 10 livros mais baixados, dos livros que estão no banco de dados
     public void top10MaisBaixados() {
         books = repositorioBook.findTop10ByOrderByDownloadsDesc();
+        books.forEach(System.out::println);
+    }
+
+    // Busca e imprime o total de livros registrados no banco de dados
+    public void totalDeLivros() {
+        books = repositorioBook.findAll().stream()
+                    .sorted(Comparator.comparing(Book::getTitle))
+                    .collect(Collectors.toList());
+        if (!books.isEmpty()) {
+            System.out.println("Total de livros registrados: " + books.size());
+        } else {
+            System.out.println("Não há livros registrados no banco de dados.");
+        }
+    }
+
+    // Busca e imprime os livros por total de Downloads em ordem decrecente
+    public void livrosMaisBaixados() {
+        books = repositorioBook.findAll().stream()
+                .sorted(Comparator.comparing(Book::getDownloads).reversed())
+                .collect(Collectors.toList());
         books.forEach(System.out::println);
     }
 }
