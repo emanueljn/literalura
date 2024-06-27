@@ -37,40 +37,46 @@ public class Main {
                     """;
 
             System.out.println(menu);
-            opcao = leitura.nextInt();
-            leitura.nextLine();
+            try {
+                opcao = leitura.nextInt();
+                leitura.nextLine();
 
-            // Métodos disponíveis para o usuário
-            switch (opcao) {
-                case 1:
-                    bookService.buscarLivro();
-                    break;
-                case 2:
-                    bookService.listarLivrosRegistrados();
-                    break;
-                case 3:
-                    authorService.listarAutoresRegistrados();
-                    break;
-                case 4:
-                    authorService.buscarAutoresPorAno();
-                    break;
-                case 5:
-                    bookService.listarLivrosPorIdioma();
-                    break;
-                case 6:
-                    bookService.top10MaisBaixados();
-                    break;
-                case 7:
-                    authorService.buscarAutoresPorParteDoNome();
-                    break;
-                case 0:
-                    System.out.println("Saindo...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                // Métodos disponíveis para o usuário
+                switch (opcao) {
+                    case 1:
+                        bookService.buscarLivro();
+                        break;
+                    case 2:
+                        bookService.listarLivrosRegistrados();
+                        break;
+                    case 3:
+                        authorService.listarAutoresRegistrados();
+                        break;
+                    case 4:
+                        authorService.buscarAutoresPorAno();
+                        break;
+                    case 5:
+                        bookService.listarLivrosPorIdioma();
+                        break;
+                    case 6:
+                        bookService.top10MaisBaixados();
+                        break;
+                    case 7:
+                        authorService.buscarAutoresPorParteDoNome();
+                        break;
+                    case 0:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                        break;
 
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número válido.");
+                leitura.nextLine(); // Limpa o buffer em caso de erro
             }
+
         }
     }
 }
