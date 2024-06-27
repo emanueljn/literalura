@@ -73,7 +73,7 @@ public class Author {
                         .map(Book::getTitle)
                         .collect(Collectors.joining(", "));
 
-        return "Author: " + name + "\n" +
+        return "Autor: " + name + "\n" +
                 "Ano de nascimento: " + birth_year + "\n" +
                 "Ano de falecimento: " + death_year + "\n" +
                 "Livros: " + booksString +  "\n";

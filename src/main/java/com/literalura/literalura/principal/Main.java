@@ -26,10 +26,10 @@ public class Main {
                     Escolha o número de sua opção:
                     1 - buscar livro pelo título
                     2 - listar livros registrados
-                    3 - buscar autores registrados
-                    4 - buscar autores vivos em um determinado ano
+                    3 - listar autores registrados
+                    4 - listar autores vivos em um determinado ano
                     5 - listar livros em um determinado idioma
-                    6 - listar top 10 mais baixados
+                    6 - listar top 10 livros mais baixados
                     7 - buscar autor por trecho do nome
                     
 

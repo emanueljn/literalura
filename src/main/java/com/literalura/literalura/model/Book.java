@@ -108,10 +108,10 @@ public class Book {
                 .collect(Collectors.joining(", "));
 
         return  "---- LIVRO ----" +
-                "\nLivro= " + title +
-                "\nAutores=" + authorsNames +
-                "\nIdiomas= " + (languages.isEmpty() ? "Linguagem indefinida!" : languages.get(0)) +
-                "\nTotal de downloads=" + downloads +
+                "\nTítulo= " + title +
+                "\nAutor= " + authorsNames +
+                "\nIdioma= " + (languages.isEmpty() ? "Linguagem indefinida!" : languages.get(0)) +
+                "\nNúmero de downloads= " + downloads +
                 "\n---------------\n";
     }
 }
