@@ -96,7 +96,14 @@ public class BookService {
 
     // Lista os livros pelo idioma que o usuário informa
     public void listarLivrosPorIdioma() {
-        System.out.println("Digite o idoma para busca dos: ");
+        var menu = """ 
+                Insira o idioma para realizar a busca:
+                es - espanhol
+                en - inglês
+                fr - francês
+                pt - português
+                """;
+        System.out.println(menu);
         var idiomaLivro = leitura.nextLine();
         books = repositorioBook.findByLanguage(idiomaLivro.toLowerCase());
         if (!books.isEmpty()) {
