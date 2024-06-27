@@ -20,10 +20,14 @@ public class AuthorService {
 
     // Lista os autores registrados
     public void listarAutoresRegistrados() {
-        authors = repositorioAuthor.findAll();
-        authors.stream()
+        authors = repositorioAuthor.findAll().stream()
                 .sorted(Comparator.comparing(Author::getName))
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
+        if(!authors.isEmpty()) {
+            authors.forEach(System.out::println);
+        } else {
+            System.out.println("Não há autores registrados!");
+        }
     }
 
     // Busca autores por Ano

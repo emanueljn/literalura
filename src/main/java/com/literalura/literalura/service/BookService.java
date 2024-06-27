@@ -36,6 +36,11 @@ public class BookService {
 
     // Busca o livro na Api
     private void buscarLivroWeb(String nomeLivro) {
+        // Verifica novamente se o livro já está salvo no banco de dados
+        if (bookSearched.isPresent()) {
+            return;
+        }
+
         // Obtem dados do livro da Api
         var json = consumo.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
 
